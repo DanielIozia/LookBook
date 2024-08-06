@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.javaproject.model.Capi;
 import com.opencsv.CSVParser;
@@ -126,6 +127,44 @@ public class CapiService {
             }
     }
 
+    public void exportAvailableCapi() {
 
+        List<Capi> capiList = loadCapi();
+
+        // Filtra solo i capi disponibili
+        List<Capi> availableCapiList = capiList.stream()
+                .filter(Capi::isDisponibile)
+                .collect(Collectors.toList());
+
+        // Percorso del nuovo file CSV
+        String filePath = "src/main/resources/capiDisponibili.csv";
+        File file = new File(filePath);
+
+        try (CSVWriter writer = (CSVWriter) new CSVWriterBuilder(new FileWriter(file, StandardCharsets.UTF_8))
+                .withSeparator(';')
+                .withQuoteChar(CSVWriter.NO_QUOTE_CHARACTER)
+                .withLineEnd(CSVWriter.DEFAULT_LINE_END)
+                .build()
+        ) {
+            // Scrivi l'intestazione
+            writer.writeNext(new String[]{"ID", "Data inserimento", "Tipologia", "Marca", "Taglia", "Prezzo", "Disponibile"});
+
+            // Scrivi i capi disponibili
+            for (Capi capo : availableCapiList) {
+                String[] record = new String[]{
+                    Integer.toString(capo.getId()),
+                    capo.getDataInserimento(),
+                    capo.getTipologia(),
+                    capo.getMarca(),
+                    capo.getTaglia(),
+                    Double.toString(capo.getPrezzo()) + " €",
+                    capo.isDisponibile() ? "SI" : "NO"
+                };
+                writer.writeNext(record);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
 }

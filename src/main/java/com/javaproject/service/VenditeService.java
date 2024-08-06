@@ -96,7 +96,7 @@ public class VenditeService {
     public boolean checkVendita(int id){
         List<Vendite> venditeList = loadVendite();
         for(Vendite vendita : venditeList){
-            if(vendita.getIdCapo() == id){
+            if(vendita.getId() == id){
                 return true;
             }
         }

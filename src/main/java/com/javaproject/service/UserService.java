@@ -1,5 +1,7 @@
 package com.javaproject.service;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,6 +14,8 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVWriter;
+import com.opencsv.CSVWriterBuilder;
 import com.opencsv.exceptions.CsvException;
 
 public class UserService {
@@ -68,6 +72,57 @@ public class UserService {
         List<Utenti> utentiList = loadutenti();
         for(Utenti utente : utentiList){
             if(utente.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void insertUtente(Utenti utente) {
+
+        List<Utenti> utentiList = loadutenti();
+        utentiList.add(utente);
+
+        File file = new File(getClass().getClassLoader().getResource("utenti.csv").getFile());
+
+        try (CSVWriter writer = (CSVWriter) new CSVWriterBuilder(new FileWriter(file, StandardCharsets.UTF_8))
+                .withSeparator(';')
+                .withQuoteChar(CSVWriter.NO_QUOTE_CHARACTER)
+                .withLineEnd(CSVWriter.DEFAULT_LINE_END)
+                .build()
+        ) {
+            
+            
+            
+                String[] header = {"ID", "Nome", "Cognome", "Data di nascita", "Indirizzo", "Documento ID"};
+                writer.writeNext(header);
+            
+
+            // Scrivi tutti gli utenti nel file CSV
+            for (Utenti u : utentiList) {
+                String[] record = {
+                        String.valueOf(u.getId()),
+                        u.getNome(),
+                        u.getCognome(),
+                        u.getDataDiNascita(),
+                        u.getIndirizzo(),
+                        u.getDocumentoId()
+                };
+                writer.writeNext(record);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+            
+
+
+    }
+
+    public boolean checkDocumentoId(String documentoId){
+        List<Utenti> utentiList = loadutenti();
+        for(Utenti utente : utentiList){
+            if(utente.getDocumentoId().equals(documentoId)){
                 return true;
             }
         }
