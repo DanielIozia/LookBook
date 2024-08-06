@@ -9,8 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 
 public class Vendite {
-    
-
     private int id;
     private int idCapo;
     private int idUtente;

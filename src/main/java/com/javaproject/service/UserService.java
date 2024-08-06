@@ -1,12 +1,11 @@
 package com.javaproject.service;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 import com.javaproject.model.Utenti;
 import com.opencsv.CSVParser;
@@ -15,15 +14,16 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
+public class UserService {
+    
+    //loadUser
 
-public class CSVService {
-
-    public List<Utenti> loadUtenti() {
+    public List<Utenti> loadutenti() {
 
         List<Utenti> utentiList = new ArrayList<>();
         try {
             // Ottieni il file CSV come risorsa
-            InputStream inputStream = (InputStream) getClass().getClassLoader().getResourceAsStream("Utenti.csv");
+            InputStream inputStream = (InputStream) getClass().getClassLoader().getResourceAsStream("utenti.csv");
             if (inputStream == null) {
                 throw new IOException("File non trovato");
             }
@@ -43,15 +43,16 @@ public class CSVService {
 
                 // Mappa i dati nella classe Utenti
                 for (String[] record : records) {
-                    Utenti utente = new Utenti(
+                   
+                    Utenti utenti = new Utenti(
                             Integer.parseInt(record[0]),
                             record[1],
                             record[2],
                             record[3],
                             record[4],
                             record[5]
-                    );
-                    utentiList.add(utente);
+                    );  
+                    utentiList.add(utenti);
                 }
             } catch (CsvException e) {
                 e.printStackTrace();
@@ -63,8 +64,13 @@ public class CSVService {
         return utentiList;
     }
 
+    public boolean checkUser(int id){
+        List<Utenti> utentiList = loadutenti();
+        for(Utenti utente : utentiList){
+            if(utente.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
 }
-
-
-
-

@@ -1,5 +1,7 @@
-com/javaproject/service/CSVService.class
+com/javaproject/service/UserService.class
+com/javaproject/service/CapiService.class
 com/javaproject/controller/Controller.class
+com/javaproject/service/VenditeService.class
 com/javaproject/model/Vendite.class
 com/javaproject/App.class
 com/javaproject/model/Utenti.class
