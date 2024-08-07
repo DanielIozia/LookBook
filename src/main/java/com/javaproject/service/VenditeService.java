@@ -27,8 +27,9 @@ public class VenditeService {
         try {
             // Ottieni il file CSV come risorsa
             InputStream inputStream = (InputStream) getClass().getClassLoader().getResourceAsStream("vendite.csv");
+
             if (inputStream == null) {
-                throw new IOException("File non trovato");
+                throw new IOException("File delle vendite non trovato \n");
             }
 
             // Configura il CSVParser per usare il punto e virgola come delimitatore

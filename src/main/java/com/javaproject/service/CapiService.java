@@ -95,6 +95,10 @@ public class CapiService {
                 // Ottieni il file CSV come risorsa
                 File file = new File(getClass().getClassLoader().getResource("capi.csv").getFile());
 
+                if (!file.exists()) {
+                    throw new IOException("File dei capi non trovato \n");
+                }
+
                 // Configura il CSVWriter per usare il punto e virgola come delimitatore
                 CSVWriter writer = (CSVWriter) new CSVWriterBuilder(new FileWriter(file, StandardCharsets.UTF_8))
                         .withSeparator(';')

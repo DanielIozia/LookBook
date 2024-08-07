@@ -29,7 +29,7 @@ public class UserService {
             // Ottieni il file CSV come risorsa
             InputStream inputStream = (InputStream) getClass().getClassLoader().getResourceAsStream("utenti.csv");
             if (inputStream == null) {
-                throw new IOException("File non trovato");
+                throw new IOException("File degli utenti non trovato \n");
             }
 
             // Configura il CSVParser per usare il punto e virgola come delimitatore
